@@ -783,6 +783,7 @@ class FlxSound extends FlxBasic
 		}
 		else
 			_pitch = v;
+		
 		return v;
 	}
 
