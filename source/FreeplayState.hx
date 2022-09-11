@@ -141,6 +141,7 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
+			Paths.currentModDirectory = songs[i].folder;
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
@@ -159,7 +160,6 @@ class FreeplayState extends MusicBeatState
 				// trace(songs[i].songName + ' new scale: ' + textScale);
 			}
 
-			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.sprTracker = songText;
 
@@ -325,7 +325,7 @@ class FreeplayState extends MusicBeatState
 		scoreText.text = 'PERSONAL BEST: '
 			+ FlxStringUtil.formatMoney(lerpScore, false)
 			+ ' ('
-			+ CoolUtil.formatAccuracy(Highscore.floorDecimal(lerpRating * 100, 2))
+			+ CoolUtil.formatAccuracy(CoolUtil.floorDecimal(lerpRating * 100, 2))
 			+ '%)';
 		positionHighscore();
 
@@ -708,9 +708,6 @@ class FreeplayState extends MusicBeatState
 
 		function changeSelection(change:Int = 0, playSound:Bool = true)
 		{
-			if (playSound)
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-
 			curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 			var newColor:Int = songs[curSelected].color;
@@ -804,6 +801,9 @@ class FreeplayState extends MusicBeatState
 			{
 				curDifficulty = newPos;
 			}
+
+			if (playSound)
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		}
 
 		private function positionHighscore()
